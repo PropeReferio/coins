@@ -6,6 +6,7 @@ from requests import Session
 url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map"
 
 parameters = {"symbol": "MATIC,XLM,COMP,BAL,CLV,GRT,ANKR,BOND,SKL,NU,FORTH"}
+# TODO Add argparse with --find, -f to get IDs for symbols passed in
 
 headers = {
     "Accepts": "application/json",
