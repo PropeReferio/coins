@@ -1,15 +1,27 @@
 #!/usr/bin/env python
+import io
 import json
 import os
+from pathlib import Path
 
 import pandas as pd
+from cryptography.fernet import Fernet
 from requests import Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
 # CSV Must be organized in increasing order by ID
 
 # Step 1: Get current crypto prices for each token in CSV
-holdings = pd.read_csv("~/Documents/scripts/coins/crypto.csv", sep="|")
+with open(os.environ['COINS_KEY_FILE_PATH'], 'rb') as filekey:
+    key = filekey.read()
+fernet = Fernet(key)
+
+enc_path = Path(__file__).parent.resolve().joinpath('enc.csv')
+with open(enc_path, 'rb') as enc_file:
+    encrypted = enc_file.read()
+
+decrypted = fernet.decrypt(encrypted)
+holdings = pd.read_csv(io.BytesIO(decrypted), sep="|")
 
 
 def get_current_prices():
