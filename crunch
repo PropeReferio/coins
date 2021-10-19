@@ -55,13 +55,17 @@ def get_current_prices():
 # Step 1a: Get current total value
 def get_totals_in_usd(current_prices):
     totals_by_coin = []
+    print("\nCoin                    Amount         Value\n"
+          "------------------------------------------------")
     for i in range(len(holdings)):
         amount_held = json.loads(holdings.loc[i, "purchases"])[0]["amount"]
         value_of_coin = amount_held * current_prices[i]
-        print(f"{holdings.loc[i, 'token'] : <23} ${value_of_coin:.2f}")
+        print(f"{holdings.loc[i, 'token'] : <23} "
+              f"{round(amount_held, 5) : <14} ${value_of_coin:.2f}")
         totals_by_coin.append(value_of_coin)
 
-    print(f"\nTotals of all holdings: ${sum(totals_by_coin)}")
+    print(f"\nTotals of all holdings:                "
+          f"${sum(totals_by_coin):.2f}")
 
 
 def main():
